@@ -1,30 +1,45 @@
 package com.alibou.security.controllers;
 
 import com.alibou.security.dto.TaskRequest;
+import com.alibou.security.dto.TaskResponse;
 import com.alibou.security.models.Task;
+import com.alibou.security.repositories.TaskRepository;
 import com.alibou.security.services.TaskService;
 import com.alibou.security.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
 public class TaskController {
     private final TaskService taskService;
-    private final UserService userService;
+    private final TaskRepository taskRepository;
     @Autowired
-    public TaskController(TaskService taskService, UserService userService) {
+    public TaskController(TaskService taskService,  TaskRepository taskRepository) {
         this.taskService = taskService;
-        this.userService = userService;
+        this.taskRepository = taskRepository;
     }
+    @GetMapping
+    public List<Task> getAllTasks() {
+        return taskService.getAllTasks();
+    }
+    @GetMapping("/{id}")
+    public TaskResponse getTaskById(@PathVariable("id") Long taskId) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
 
-    @GetMapping("/get/{id}")
-    public Optional<Task> getTaskById(@PathVariable Long id) {
-        return taskService.findById(id);
+        return TaskResponse.builder()
+                .id(task.getId())
+                .title(task.getTitle())
+                .note(task.getNote())
+                .isImportant(task.isImportant())
+                .isAddedToMyDay(task.isAddedToMyDay())
+                .repeatType(task.getRepeatType().toString())
+                .status(task.getStatus().toString())
+                .build();
     }
 
     @PostMapping

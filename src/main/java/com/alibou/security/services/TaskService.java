@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface  TaskService {
-
+    List<Task> getAllTasks();
     Optional<Task> findById(Long id);
 
     TaskRequest createTask(TaskRequest taskRequest);

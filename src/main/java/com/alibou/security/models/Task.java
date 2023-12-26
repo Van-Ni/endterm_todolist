@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String title;
