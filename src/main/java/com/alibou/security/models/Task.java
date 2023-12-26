@@ -15,6 +15,7 @@ public class Task {
 
     private String note;
 
+    // Một Task thuộc về một người dùng
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

@@ -1,11 +1,14 @@
 package com.alibou.security.user;
 
+import com.alibou.security.models.Task;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +34,9 @@ public class UserService {
 
         // save the new password
         repository.save(user);
+    }
+    public User getUserById(Integer userId) {
+        return repository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
     }
 }
