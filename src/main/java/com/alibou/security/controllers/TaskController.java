@@ -16,11 +16,9 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/v1/tasks")
 public class TaskController {
     private final TaskService taskService;
-    private final TaskRepository taskRepository;
     @Autowired
     public TaskController(TaskService taskService,  TaskRepository taskRepository) {
         this.taskService = taskService;
-        this.taskRepository = taskRepository;
     }
     @GetMapping
     public List<Task> getAllTasks() {
@@ -28,18 +26,7 @@ public class TaskController {
     }
     @GetMapping("/{id}")
     public TaskResponse getTaskById(@PathVariable("id") Long taskId) {
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
-
-        return TaskResponse.builder()
-                .id(task.getId())
-                .title(task.getTitle())
-                .note(task.getNote())
-                .isImportant(task.isImportant())
-                .isAddedToMyDay(task.isAddedToMyDay())
-                .repeatType(task.getRepeatType().toString())
-                .status(task.getStatus().toString())
-                .build();
+        return taskService.getTaskById(taskId);
     }
 
     @PostMapping
@@ -47,5 +34,20 @@ public class TaskController {
         return taskService.createTask(taskRequest);
     }
 
+    @PutMapping("/{id}/status")
+    public TaskResponse updateTaskStatus(
+            @PathVariable("id") Long taskId,
+            @RequestParam("status") String newStatus) {
+        return taskService.updateTaskStatus(taskId, newStatus);
+    }
 
+    @PutMapping("/{id}/add-to-important")
+    public TaskResponse addToImportant(@PathVariable("id") Long taskId) {
+        return taskService.addToImportant(taskId);
+    }
+
+//    @GetMapping("/{userId}/important")
+//    public List<TaskResponse> getImportantTasksForUser(@PathVariable("userId") Long userId) {
+//        return taskService.getImportantTasksForUser(userId);
+//    }
 }
