@@ -17,14 +17,17 @@ import java.util.NoSuchElementException;
 public class TaskController {
     @Autowired
     private final TaskService taskService;
+
     @Autowired
-    public TaskController(TaskService taskService,  TaskRepository taskRepository) {
+    public TaskController(TaskService taskService, TaskRepository taskRepository) {
         this.taskService = taskService;
     }
+
     @GetMapping("/user/{id}")
     public List<TaskResponse> getAllTasks(@PathVariable("id") Integer userId) {
         return taskService.getAllTasks(userId);
     }
+
     @GetMapping("/{id}")
     public TaskResponse getTaskById(@PathVariable("id") Long taskId) {
         return taskService.getTaskById(taskId);
@@ -47,8 +50,20 @@ public class TaskController {
         return taskService.addToImportant(taskId);
     }
 
-//    @GetMapping("/{userId}/important")
-//    public List<TaskResponse> getImportantTasksForUser(@PathVariable("userId") Long userId) {
-//        return taskService.getImportantTasksForUser(userId);
-//    }
+    @GetMapping("/user/{id}/important")
+    public List<TaskResponse> getImportantTasksForUser(@PathVariable("id") Integer userId) {
+        return taskService.getImportantTasksForUser(userId);
+    }
+
+    @PutMapping("/{id}/add-to-myday")
+    public TaskResponse addToMyDay(@PathVariable("id") Long taskId) {
+        return taskService.addToMyDay(taskId);
+    }
+
+    @GetMapping("/user/{id}/myday")
+    public List<TaskResponse> getMyDayTasksForUser(@PathVariable("id") Integer userId) {
+        return taskService.getMyDayTasksForUser(userId);
+    }
+
+
 }
