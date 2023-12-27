@@ -16,19 +16,35 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class TaskServiceImpl implements TaskService{
+public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+
     @Autowired
     public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
     }
 
-
     @Override
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    public List<TaskResponse> getAllTasks(Integer userId) {
+        // return taskRepository.findAll();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
+
+        List<Task> tasks = taskRepository.findByUser(user);
+
+        return tasks.stream()
+                .map(task -> TaskResponse.builder()
+                        .id(task.getId())
+                        .title(task.getTitle())
+                        .note(task.getNote())
+                        .isImportant(task.isImportant())
+                        .isAddedToMyDay(task.isAddedToMyDay())
+                        .repeatType(task.getRepeatType().toString())
+                        .status(task.getStatus().toString())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -102,23 +118,25 @@ public class TaskServiceImpl implements TaskService{
                 .build();
     }
 
-//    @Override
-//    public List<TaskResponse> getImportantTasksForUser(Long userId) {
-//        User user = userRepository.find(userId)
-//                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
-//
-//        List<Task> importantTasks = taskRepository.findByUserAndIsImportant(user, true);
-//
-//        return importantTasks.stream()
-//                .map(task -> TaskResponse.builder()
-//                        .id(task.getId())
-//                        .title(task.getTitle())
-//                        .note(task.getNote())
-//                        .isImportant(task.isImportant())
-//                        .isAddedToMyDay(task.isAddedToMyDay())
-//                        .repeatType(task.getRepeatType().toString())
-//                        .status(task.getStatus().toString())
-//                        .build())
-//                .collect(Collectors.toList());
-//    }
+    // @Override
+    // public List<TaskResponse> getImportantTasksForUser(Long userId) {
+    // User user = userRepository.find(userId)
+    // .orElseThrow(() -> new NoSuchElementException("User not found with ID: " +
+    // userId));
+    //
+    // List<Task> importantTasks = taskRepository.findByUserAndIsImportant(user,
+    // true);
+    //
+    // return importantTasks.stream()
+    // .map(task -> TaskResponse.builder()
+    // .id(task.getId())
+    // .title(task.getTitle())
+    // .note(task.getNote())
+    // .isImportant(task.isImportant())
+    // .isAddedToMyDay(task.isAddedToMyDay())
+    // .repeatType(task.getRepeatType().toString())
+    // .status(task.getStatus().toString())
+    // .build())
+    // .collect(Collectors.toList());
+    // }
 }

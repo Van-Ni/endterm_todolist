@@ -15,14 +15,15 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/api/v1/tasks")
 public class TaskController {
+    @Autowired
     private final TaskService taskService;
     @Autowired
     public TaskController(TaskService taskService,  TaskRepository taskRepository) {
         this.taskService = taskService;
     }
-    @GetMapping
-    public List<Task> getAllTasks() {
-        return taskService.getAllTasks();
+    @GetMapping("/user/{id}")
+    public List<TaskResponse> getAllTasks(@PathVariable("id") Integer userId) {
+        return taskService.getAllTasks(userId);
     }
     @GetMapping("/{id}")
     public TaskResponse getTaskById(@PathVariable("id") Long taskId) {
