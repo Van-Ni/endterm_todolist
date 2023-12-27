@@ -7,6 +7,7 @@ import com.alibou.security.repositories.TaskRepository;
 import com.alibou.security.services.TaskService;
 import com.alibou.security.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -65,5 +66,15 @@ public class TaskController {
         return taskService.getMyDayTasksForUser(userId);
     }
 
+    @PutMapping("/{id}")
+    public TaskResponse updateTaskDetails(@PathVariable("id") Long taskId, @RequestBody TaskRequest updatedTask) {
+        return taskService.updateTaskDetails(taskId, updatedTask);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTask(@PathVariable("id") Long taskId) {
+        taskService.deleteTask(taskId);
+        return ResponseEntity.ok("Task deleted successfully");
+    }
 
 }

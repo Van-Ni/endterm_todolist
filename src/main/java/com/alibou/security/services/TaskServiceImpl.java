@@ -17,170 +17,200 @@ import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
-    private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
+        private final TaskRepository taskRepository;
+        private final UserRepository userRepository;
 
-    @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository) {
-        this.taskRepository = taskRepository;
-        this.userRepository = userRepository;
-    }
+        @Autowired
+        public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository) {
+                this.taskRepository = taskRepository;
+                this.userRepository = userRepository;
+        }
 
-    @Override
-    public List<TaskResponse> getAllTasks(Integer userId) {
-        // return taskRepository.findAll();
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
+        @Override
+        public List<TaskResponse> getAllTasks(Integer userId) {
+                // return taskRepository.findAll();
+                User user = userRepository.findById(userId)
+                                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
 
-        List<Task> tasks = taskRepository.findByUser(user);
+                List<Task> tasks = taskRepository.findByUser(user);
 
-        return tasks.stream()
-                .map(task -> TaskResponse.builder()
-                        .id(task.getId())
-                        .title(task.getTitle())
-                        .note(task.getNote())
-                        .isImportant(task.isImportant())
-                        .isAddedToMyDay(task.isAddedToMyDay())
-                        .repeatType(task.getRepeatType().toString())
-                        .status(task.getStatus().toString())
-                        .build())
-                .collect(Collectors.toList());
-    }
+                return tasks.stream()
+                                .map(task -> TaskResponse.builder()
+                                                .id(task.getId())
+                                                .title(task.getTitle())
+                                                .note(task.getNote())
+                                                .isImportant(task.isImportant())
+                                                .isAddedToMyDay(task.isAddedToMyDay())
+                                                .repeatType(task.getRepeatType().toString())
+                                                .status(task.getStatus().toString())
+                                                .build())
+                                .collect(Collectors.toList());
+        }
 
-    @Override
-    public TaskResponse getTaskById(Long taskId) {
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
+        @Override
+        public TaskResponse getTaskById(Long taskId) {
+                Task task = taskRepository.findById(taskId)
+                                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
 
-        return TaskResponse.builder()
-                .id(task.getId())
-                .title(task.getTitle())
-                .note(task.getNote())
-                .isImportant(task.isImportant())
-                .isAddedToMyDay(task.isAddedToMyDay())
-                .repeatType(task.getRepeatType().toString())
-                .status(task.getStatus().toString())
-                .build();
-    }
+                return TaskResponse.builder()
+                                .id(task.getId())
+                                .title(task.getTitle())
+                                .note(task.getNote())
+                                .isImportant(task.isImportant())
+                                .isAddedToMyDay(task.isAddedToMyDay())
+                                .repeatType(task.getRepeatType().toString())
+                                .status(task.getStatus().toString())
+                                .build();
+        }
 
-    @Override
-    public TaskRequest createTask(TaskRequest request) {
-        Task task = new Task();
-        BeanUtils.copyProperties(request, task);
+        @Override
+        public TaskRequest createTask(TaskRequest request) {
+                Task task = new Task();
+                BeanUtils.copyProperties(request, task);
 
-        task.setUser(userRepository.getById(Math.toIntExact(request.getUser())));
+                task.setUser(userRepository.getById(Math.toIntExact(request.getUser())));
 
-        Task task2 = taskRepository.save(task);
-        return request;
-    }
+                Task task2 = taskRepository.save(task);
+                return request;
+        }
 
-    @Override
-    public TaskResponse updateTaskStatus(Long taskId, String newStatus) {
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
+        @Override
+        public TaskResponse updateTaskStatus(Long taskId, String newStatus) {
+                Task task = taskRepository.findById(taskId)
+                                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
 
-        // Update the task status
-        task.setStatus(Task.TaskStatus.valueOf(newStatus));
+                // Update the task status
+                task.setStatus(Task.TaskStatus.valueOf(newStatus));
 
-        // Save the updated task
-        taskRepository.save(task);
+                // Save the updated task
+                taskRepository.save(task);
 
-        return TaskResponse.builder()
-                .id(task.getId())
-                .title(task.getTitle())
-                .note(task.getNote())
-                .isImportant(task.isImportant())
-                .isAddedToMyDay(task.isAddedToMyDay())
-                .repeatType(task.getRepeatType().toString())
-                .status(task.getStatus().toString())
-                .build();
-    }
+                return TaskResponse.builder()
+                                .id(task.getId())
+                                .title(task.getTitle())
+                                .note(task.getNote())
+                                .isImportant(task.isImportant())
+                                .isAddedToMyDay(task.isAddedToMyDay())
+                                .repeatType(task.getRepeatType().toString())
+                                .status(task.getStatus().toString())
+                                .build();
+        }
 
-    @Override
-    public TaskResponse addToImportant(Long taskId) {
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
+        @Override
+        public TaskResponse addToImportant(Long taskId) {
+                Task task = taskRepository.findById(taskId)
+                                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
 
-        // Update the task's isImportant property
-        task.setImportant(true);
+                // Update the task's isImportant property
+                task.setImportant(true);
 
-        // Save the updated task
-        taskRepository.save(task);
+                // Save the updated task
+                taskRepository.save(task);
 
-        return TaskResponse.builder()
-                .id(task.getId())
-                .title(task.getTitle())
-                .note(task.getNote())
-                .isImportant(task.isImportant())
-                .isAddedToMyDay(task.isAddedToMyDay())
-                .repeatType(task.getRepeatType().toString())
-                .status(task.getStatus().toString())
-                .build();
-    }
+                return TaskResponse.builder()
+                                .id(task.getId())
+                                .title(task.getTitle())
+                                .note(task.getNote())
+                                .isImportant(task.isImportant())
+                                .isAddedToMyDay(task.isAddedToMyDay())
+                                .repeatType(task.getRepeatType().toString())
+                                .status(task.getStatus().toString())
+                                .build();
+        }
 
-    @Override
-    public List<TaskResponse> getImportantTasksForUser(Integer userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " +
-                        userId));
+        @Override
+        public List<TaskResponse> getImportantTasksForUser(Integer userId) {
+                User user = userRepository.findById(userId)
+                                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " +
+                                                userId));
 
-        List<Task> importantTasks = taskRepository.findByUserAndIsImportant(user,
-                true);
+                List<Task> importantTasks = taskRepository.findByUserAndIsImportant(user,
+                                true);
 
-        return importantTasks.stream()
-                .map(task -> TaskResponse.builder()
-                        .id(task.getId())
-                        .title(task.getTitle())
-                        .note(task.getNote())
-                        .isImportant(task.isImportant())
-                        .isAddedToMyDay(task.isAddedToMyDay())
-                        .repeatType(task.getRepeatType().toString())
-                        .status(task.getStatus().toString())
-                        .build())
-                .collect(Collectors.toList());
-    }
+                return importantTasks.stream()
+                                .map(task -> TaskResponse.builder()
+                                                .id(task.getId())
+                                                .title(task.getTitle())
+                                                .note(task.getNote())
+                                                .isImportant(task.isImportant())
+                                                .isAddedToMyDay(task.isAddedToMyDay())
+                                                .repeatType(task.getRepeatType().toString())
+                                                .status(task.getStatus().toString())
+                                                .build())
+                                .collect(Collectors.toList());
+        }
 
-    @Override
-    public TaskResponse addToMyDay(Long taskId) {
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
+        @Override
+        public TaskResponse addToMyDay(Long taskId) {
+                Task task = taskRepository.findById(taskId)
+                                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
 
-        // Update the task's isImportant property
-        task.setAddedToMyDay(true);
+                // Update the task's isImportant property
+                task.setAddedToMyDay(true);
 
-        // Save the updated task
-        taskRepository.save(task);
+                // Save the updated task
+                taskRepository.save(task);
 
-        return TaskResponse.builder()
-                .id(task.getId())
-                .title(task.getTitle())
-                .note(task.getNote())
-                .isImportant(task.isImportant())
-                .isAddedToMyDay(task.isAddedToMyDay())
-                .repeatType(task.getRepeatType().toString())
-                .status(task.getStatus().toString())
-                .build();
-    }
+                return TaskResponse.builder()
+                                .id(task.getId())
+                                .title(task.getTitle())
+                                .note(task.getNote())
+                                .isImportant(task.isImportant())
+                                .isAddedToMyDay(task.isAddedToMyDay())
+                                .repeatType(task.getRepeatType().toString())
+                                .status(task.getStatus().toString())
+                                .build();
+        }
 
-    @Override
-    public List<TaskResponse> getMyDayTasksForUser(Integer userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " +
-                        userId));
+        @Override
+        public List<TaskResponse> getMyDayTasksForUser(Integer userId) {
+                User user = userRepository.findById(userId)
+                                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " +
+                                                userId));
 
-        List<Task> importantTasks = taskRepository.findByUserAndIsAddedToMyDay(user,
-                true);
+                List<Task> importantTasks = taskRepository.findByUserAndIsAddedToMyDay(user,
+                                true);
 
-        return importantTasks.stream()
-                .map(task -> TaskResponse.builder()
-                        .id(task.getId())
-                        .title(task.getTitle())
-                        .note(task.getNote())
-                        .isImportant(task.isImportant())
-                        .isAddedToMyDay(task.isAddedToMyDay())
-                        .repeatType(task.getRepeatType().toString())
-                        .status(task.getStatus().toString())
-                        .build())
-                .collect(Collectors.toList());
-    }
+                return importantTasks.stream()
+                                .map(task -> TaskResponse.builder()
+                                                .id(task.getId())
+                                                .title(task.getTitle())
+                                                .note(task.getNote())
+                                                .isImportant(task.isImportant())
+                                                .isAddedToMyDay(task.isAddedToMyDay())
+                                                .repeatType(task.getRepeatType().toString())
+                                                .status(task.getStatus().toString())
+                                                .build())
+                                .collect(Collectors.toList());
+        }
+
+        @Override
+        public TaskResponse updateTaskDetails(Long taskId, TaskRequest updatedTask) {
+                Task task = taskRepository.findById(taskId)
+                                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
+
+                task.setTitle(updatedTask.getTitle());
+                task.setNote(updatedTask.getNote());
+                task.setRepeatType(updatedTask.getRepeatType());
+
+                taskRepository.save(task);
+
+                return TaskResponse.builder()
+                                .id(task.getId())
+                                .title(task.getTitle())
+                                .note(task.getNote())
+                                .isImportant(task.isImportant())
+                                .isAddedToMyDay(task.isAddedToMyDay())
+                                .repeatType(task.getRepeatType().toString())
+                                .status(task.getStatus().toString())
+                                .build();
+        }
+
+        @Override
+        public void deleteTask(Long taskId) {
+                Task task = taskRepository.findById(taskId)
+                                .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
+
+                taskRepository.delete(task);
+        }
 }

@@ -25,5 +25,7 @@ public interface TaskService {
 
     List<TaskResponse> getMyDayTasksForUser(Integer userId);
 
+    TaskResponse updateTaskDetails(Long taskId, TaskRequest updatedTask);
 
+    void deleteTask(Long taskId);
 }
