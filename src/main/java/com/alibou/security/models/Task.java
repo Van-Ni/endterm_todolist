@@ -2,8 +2,12 @@ package com.alibou.security.models;
 import com.alibou.security.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CurrentTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+
+import static org.hibernate.generator.EventType.INSERT;
+import static org.hibernate.generator.EventType.UPDATE;
 
 @Entity
 @Table(name = "tasks")
@@ -36,20 +40,9 @@ public class Task {
     }
     private boolean isCompleted;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @CurrentTimestamp(event = INSERT)
+    public Instant createdAt;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    @CurrentTimestamp(event = {INSERT, UPDATE})
+    public Instant lastUpdatedAt;
 }
