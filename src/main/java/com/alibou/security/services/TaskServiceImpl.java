@@ -42,7 +42,7 @@ public class TaskServiceImpl implements TaskService {
                                                 .isImportant(task.isImportant())
                                                 .isAddedToMyDay(task.isAddedToMyDay())
                                                 .repeatType(task.getRepeatType().toString())
-                                                .status(task.getStatus().toString())
+                                                .isCompleted(task.isCompleted())
                                                 .build())
                                 .collect(Collectors.toList());
         }
@@ -59,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isImportant(task.isImportant())
                                 .isAddedToMyDay(task.isAddedToMyDay())
                                 .repeatType(task.getRepeatType().toString())
-                                .status(task.getStatus().toString())
+                                .isCompleted(task.isCompleted())
                                 .build();
         }
 
@@ -75,12 +75,12 @@ public class TaskServiceImpl implements TaskService {
         }
 
         @Override
-        public TaskResponse updateTaskStatus(Long taskId, String newStatus) {
+        public TaskResponse updateTaskStatus(Long taskId) {
                 Task task = taskRepository.findById(taskId)
                                 .orElseThrow(() -> new NoSuchElementException("Task not found with ID: " + taskId));
 
                 // Update the task status
-                task.setStatus(Task.TaskStatus.valueOf(newStatus));
+                task.setCompleted(!task.isCompleted());
 
                 // Save the updated task
                 taskRepository.save(task);
@@ -92,7 +92,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isImportant(task.isImportant())
                                 .isAddedToMyDay(task.isAddedToMyDay())
                                 .repeatType(task.getRepeatType().toString())
-                                .status(task.getStatus().toString())
+                                .isCompleted(task.isCompleted())
                                 .build();
         }
 
@@ -114,7 +114,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isImportant(task.isImportant())
                                 .isAddedToMyDay(task.isAddedToMyDay())
                                 .repeatType(task.getRepeatType().toString())
-                                .status(task.getStatus().toString())
+                                .isCompleted(task.isCompleted())
                                 .build();
         }
 
@@ -135,7 +135,7 @@ public class TaskServiceImpl implements TaskService {
                                                 .isImportant(task.isImportant())
                                                 .isAddedToMyDay(task.isAddedToMyDay())
                                                 .repeatType(task.getRepeatType().toString())
-                                                .status(task.getStatus().toString())
+                                                .isCompleted(task.isCompleted())
                                                 .build())
                                 .collect(Collectors.toList());
         }
@@ -158,7 +158,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isImportant(task.isImportant())
                                 .isAddedToMyDay(task.isAddedToMyDay())
                                 .repeatType(task.getRepeatType().toString())
-                                .status(task.getStatus().toString())
+                                .isCompleted(task.isCompleted())
                                 .build();
         }
 
@@ -179,7 +179,7 @@ public class TaskServiceImpl implements TaskService {
                                                 .isImportant(task.isImportant())
                                                 .isAddedToMyDay(task.isAddedToMyDay())
                                                 .repeatType(task.getRepeatType().toString())
-                                                .status(task.getStatus().toString())
+                                                .isCompleted(task.isCompleted())
                                                 .build())
                                 .collect(Collectors.toList());
         }
@@ -202,7 +202,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isImportant(task.isImportant())
                                 .isAddedToMyDay(task.isAddedToMyDay())
                                 .repeatType(task.getRepeatType().toString())
-                                .status(task.getStatus().toString())
+                                .isCompleted(task.isCompleted())
                                 .build();
         }
 

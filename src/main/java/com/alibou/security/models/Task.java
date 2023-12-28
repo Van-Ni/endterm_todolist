@@ -32,11 +32,5 @@ public class Task {
         MONTHLY,
         YEARLY
     }
-    @Enumerated(EnumType.STRING)
-    private TaskStatus status;
-    public enum TaskStatus {
-        COMPLETE,
-        IN_PROGRESS,
-        PENDING,
-    }
+    private boolean isCompleted;
 }

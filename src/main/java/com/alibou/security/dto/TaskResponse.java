@@ -11,6 +11,6 @@ public class TaskResponse {
     private String note;
     private boolean isImportant;
     private boolean isAddedToMyDay;
+    private boolean isCompleted;
     private String repeatType;
-    private String status;
 }

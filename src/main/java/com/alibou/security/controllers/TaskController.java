@@ -40,11 +40,9 @@ public class TaskController {
         return taskService.createTask(taskRequest);
     }
 
-    @PutMapping("/{id}/status")
-    public TaskResponse updateTaskStatus(
-            @PathVariable("id") Long taskId,
-            @RequestParam("status") String newStatus) {
-        return taskService.updateTaskStatus(taskId, newStatus);
+    @PutMapping("/{id}/update-status")
+    public TaskResponse updateTaskStatus(@PathVariable("id") Long taskId) {
+        return taskService.updateTaskStatus(taskId);
     }
 
     @PutMapping("/{id}/add-to-important")

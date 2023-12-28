@@ -11,6 +11,7 @@ public class TaskRequest {
     private boolean isImportant;
     private boolean isAddedToMyDay;
     private Task.RepeatType repeatType;
-    private Task.TaskStatus status;
+    private boolean isCompleted;
+
 
 }

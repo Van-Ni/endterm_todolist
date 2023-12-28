@@ -15,7 +15,7 @@ public interface TaskService {
 
     TaskResponse getTaskById(Long taskId);
 
-    TaskResponse updateTaskStatus(Long taskId, String newStatus);
+    TaskResponse updateTaskStatus(Long taskId);
 
     TaskResponse addToImportant(Long taskId);
 
