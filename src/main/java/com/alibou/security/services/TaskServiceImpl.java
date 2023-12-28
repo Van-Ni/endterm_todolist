@@ -44,6 +44,8 @@ public class TaskServiceImpl implements TaskService {
                                                 .isAddedToMyDay(task.isAddedToMyDay())
                                                 .repeatType(task.getRepeatType().toString())
                                                 .isCompleted(task.isCompleted())
+                                        .createdAt(task.getCreatedAt())
+                                        .lastUpdatedAt(task.getLastUpdatedAt())
                                                 .build())
                                 .collect(Collectors.toList());
         }
@@ -140,6 +142,8 @@ public class TaskServiceImpl implements TaskService {
                                                 .isAddedToMyDay(task.isAddedToMyDay())
                                                 .repeatType(task.getRepeatType().toString())
                                                 .isCompleted(task.isCompleted())
+                                        .createdAt(task.getCreatedAt())
+                                        .lastUpdatedAt(task.getLastUpdatedAt())
                                                 .build())
                                 .collect(Collectors.toList());
         }
@@ -184,6 +188,8 @@ public class TaskServiceImpl implements TaskService {
                                                 .isAddedToMyDay(task.isAddedToMyDay())
                                                 .repeatType(task.getRepeatType().toString())
                                                 .isCompleted(task.isCompleted())
+                                        .createdAt(task.getCreatedAt())
+                                        .lastUpdatedAt(task.getLastUpdatedAt())
                                                 .build())
                                 .collect(Collectors.toList());
         }
