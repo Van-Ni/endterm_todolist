@@ -1,6 +1,7 @@
 package com.alibou.security.auth;
 
 import com.alibou.security.config.JwtService;
+import com.alibou.security.dto.UserResponse;
 import com.alibou.security.token.Token;
 import com.alibou.security.token.TokenRepository;
 import com.alibou.security.token.TokenType;
@@ -58,6 +59,16 @@ public class AuthenticationService {
     );
     var user = repository.findByEmail(request.getEmail())
         .orElseThrow();
+
+// Create UserResponse with user details
+    UserResponse userResponse = UserResponse.builder()
+            .id(user.getId())
+            .firstname(user.getFirstname())
+            .lastname(user.getLastname())
+            .email(user.getEmail())
+            .build();
+
+    // Thêm phần lấy thông tin người dùng
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
     revokeAllUserTokens(user);
@@ -65,6 +76,7 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
+            .user(userResponse) // Include user details in the response
         .build();
   }
 
