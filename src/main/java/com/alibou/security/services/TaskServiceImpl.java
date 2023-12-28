@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -69,6 +70,10 @@ public class TaskServiceImpl implements TaskService {
                 BeanUtils.copyProperties(request, task);
 
                 task.setUser(userRepository.getById(Math.toIntExact(request.getUser())));
+                LocalDateTime now = LocalDateTime.now(); // Lấy thời gian hiện tại
+
+                task.setCreatedAt(now);
+                task.setUpdatedAt(now);
 
                 Task task2 = taskRepository.save(task);
                 return request;
