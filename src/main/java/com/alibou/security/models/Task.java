@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.CurrentTimestamp;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 import static org.hibernate.generator.EventType.INSERT;
 import static org.hibernate.generator.EventType.UPDATE;
@@ -39,6 +40,9 @@ public class Task {
         YEARLY
     }
     private boolean isCompleted;
+
+    @Column(name = "deadline")
+    private LocalDate deadline;
 
     @CurrentTimestamp(event = INSERT)
     public Instant createdAt;

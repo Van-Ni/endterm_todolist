@@ -46,6 +46,7 @@ public class TaskServiceImpl implements TaskService {
                                                 .isCompleted(task.isCompleted())
                                         .createdAt(task.getCreatedAt())
                                         .lastUpdatedAt(task.getLastUpdatedAt())
+                                        .deadline(task.getDeadline())
                                                 .build())
                                 .collect(Collectors.toList());
         }
@@ -65,6 +66,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isCompleted(task.isCompleted())
                                 .createdAt(task.getCreatedAt())
                                 .lastUpdatedAt(task.getLastUpdatedAt())
+                        .deadline(task.getDeadline())
                                 .build();
         }
 
@@ -144,6 +146,7 @@ public class TaskServiceImpl implements TaskService {
                                                 .isCompleted(task.isCompleted())
                                         .createdAt(task.getCreatedAt())
                                         .lastUpdatedAt(task.getLastUpdatedAt())
+                                        .deadline(task.getDeadline())
                                                 .build())
                                 .collect(Collectors.toList());
         }
@@ -190,6 +193,7 @@ public class TaskServiceImpl implements TaskService {
                                                 .isCompleted(task.isCompleted())
                                         .createdAt(task.getCreatedAt())
                                         .lastUpdatedAt(task.getLastUpdatedAt())
+                                        .deadline(task.getDeadline())
                                                 .build())
                                 .collect(Collectors.toList());
         }
