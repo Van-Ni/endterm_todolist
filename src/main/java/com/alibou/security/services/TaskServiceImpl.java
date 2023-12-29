@@ -44,9 +44,9 @@ public class TaskServiceImpl implements TaskService {
                                                 .isAddedToMyDay(task.isAddedToMyDay())
                                                 .repeatType(task.getRepeatType().toString())
                                                 .isCompleted(task.isCompleted())
-                                        .createdAt(task.getCreatedAt())
-                                        .lastUpdatedAt(task.getLastUpdatedAt())
-                                        .deadline(task.getDeadline())
+                                                .createdAt(task.getCreatedAt())
+                                                .lastUpdatedAt(task.getLastUpdatedAt())
+                                                .deadline(task.getDeadline())
                                                 .build())
                                 .collect(Collectors.toList());
         }
@@ -66,7 +66,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isCompleted(task.isCompleted())
                                 .createdAt(task.getCreatedAt())
                                 .lastUpdatedAt(task.getLastUpdatedAt())
-                        .deadline(task.getDeadline())
+                                .deadline(task.getDeadline())
                                 .build();
         }
 
@@ -76,7 +76,6 @@ public class TaskServiceImpl implements TaskService {
                 BeanUtils.copyProperties(request, task);
 
                 task.setUser(userRepository.getById(Math.toIntExact(request.getUser())));
-
 
                 Task task2 = taskRepository.save(task);
                 return request;
@@ -101,6 +100,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isAddedToMyDay(task.isAddedToMyDay())
                                 .repeatType(task.getRepeatType().toString())
                                 .isCompleted(task.isCompleted())
+                                .deadline(task.getDeadline())
                                 .build();
         }
 
@@ -123,6 +123,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isAddedToMyDay(task.isAddedToMyDay())
                                 .repeatType(task.getRepeatType().toString())
                                 .isCompleted(task.isCompleted())
+                                .deadline(task.getDeadline())
                                 .build();
         }
 
@@ -144,9 +145,9 @@ public class TaskServiceImpl implements TaskService {
                                                 .isAddedToMyDay(task.isAddedToMyDay())
                                                 .repeatType(task.getRepeatType().toString())
                                                 .isCompleted(task.isCompleted())
-                                        .createdAt(task.getCreatedAt())
-                                        .lastUpdatedAt(task.getLastUpdatedAt())
-                                        .deadline(task.getDeadline())
+                                                .createdAt(task.getCreatedAt())
+                                                .lastUpdatedAt(task.getLastUpdatedAt())
+                                                .deadline(task.getDeadline())
                                                 .build())
                                 .collect(Collectors.toList());
         }
@@ -170,6 +171,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isAddedToMyDay(task.isAddedToMyDay())
                                 .repeatType(task.getRepeatType().toString())
                                 .isCompleted(task.isCompleted())
+                                .deadline(task.getDeadline())
                                 .build();
         }
 
@@ -191,9 +193,9 @@ public class TaskServiceImpl implements TaskService {
                                                 .isAddedToMyDay(task.isAddedToMyDay())
                                                 .repeatType(task.getRepeatType().toString())
                                                 .isCompleted(task.isCompleted())
-                                        .createdAt(task.getCreatedAt())
-                                        .lastUpdatedAt(task.getLastUpdatedAt())
-                                        .deadline(task.getDeadline())
+                                                .createdAt(task.getCreatedAt())
+                                                .lastUpdatedAt(task.getLastUpdatedAt())
+                                                .deadline(task.getDeadline())
                                                 .build())
                                 .collect(Collectors.toList());
         }
@@ -217,6 +219,7 @@ public class TaskServiceImpl implements TaskService {
                                 .isAddedToMyDay(task.isAddedToMyDay())
                                 .repeatType(task.getRepeatType().toString())
                                 .isCompleted(task.isCompleted())
+                                .deadline(task.getDeadline())
                                 .build();
         }
 
